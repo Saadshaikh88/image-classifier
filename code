@@ -1,0 +1,39 @@
+'''
+YOLO=DATA SET
+TINKETER=GUI
+CV2=IMAGE PROCESSING
+'''
+from ultralytics import YOLO
+import tkinter as tk
+from tkinter import filedialog
+import cv2
+
+# DIALOGUE BOX TO CHOOSE IMAGE
+root = tk.Tk()
+root.withdraw()
+
+# IMAGE SELECTOR
+image_path = filedialog.askopenfilename(
+    title="Image Classification",
+    filetypes=[("Image files", "*.jpg *.jpeg *.png")]
+)
+
+if image_path == "":
+    print("No file selected")
+else:
+    print("File selected:", image_path)
+    model = YOLO('yolov5s.pt')
+    results = model(image_path)[0]
+    img = results.plot()
+    cv2.imshow("Image Classification", img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    results.print()
+    results.save('results/')
+
+    '''
+    HERE MODEL = YOLO (pre trained)
+    cv2.imshow = OPENS A WINDOW TO SHOW IMAGE
+    results.print = PRINTS THE RESULTS
+    img plot = plots the image with boundry boxes
+    '''
